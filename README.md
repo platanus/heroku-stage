@@ -6,7 +6,7 @@ Get the current deployment stage of your rails app deployed using heroku pipelin
 ## Installation
 
 ```bash
-$ gem install heroku-stage
+gem install heroku-stage
 ```
 
 Or add to your Gemfile:
