@@ -1,4 +1,5 @@
 # Heroku Stage
+[![Build Status](https://travis-ci.org/platanus/heroku-stage.svg?branch=master)](https://travis-ci.org/platanus/heroku-stage)
 
 Get the current deployment stage of your rails app deployed using heroku pipelines.
 
