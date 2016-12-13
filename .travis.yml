@@ -1,7 +1,15 @@
 language: ruby
 rvm:
-  - 2.2.6
-  - 2.3.3
-  - 2.4.0-preview3
+- 2.2.6
+- 2.3.3
+- 2.4.0-preview3
 script:
-  - bundle exec rake spec
+- bundle exec rake spec
+deploy:
+  provider: rubygems
+  api_key:
+    secure: gkWXoXo5OmksiDkLkDPBaXr2mO14N+y9OyX5YCbPtQXgj1p+jFUgtfRZifTImwtEWzUuzJJ+39k6kCrfC7tlA8WqWrggednyEAXCmG+klCiZm5wPG+23sbQzZimJGBdcy3ZBWBpLC7pgCn1y2x4SxV/FOTDDDFo1My/A/ZXpxYL1XLUtE9tqMxYRGbdmjsEKKl3I1MtjwvDPN3PDofrdYJMC1oBIAgqkyobTP+RHFK3WnRCh871DFyR5cR7j+HsJ8jZklWOuYHpYx5qWcs9g+u54TRWMNdMFArq6q6bRoPmrPpWCv2EdHg7bnntpgphmh3MfBb7ZLe6vQO6tA/qfYm6n/w5R/y8a2teXMFzTnm9UL2Nhuh8PnudKqatTtBpR2xa8OcM+iS/kqEe5z5OsUtjEDVK0HVzbOOzHB1gfo8UAOEs4uH7SAxgiFs4zuLJUt/Cles2BuWoEmAnljuIsxpfhcWlRPLsaLy2CufMuf5FhKDxcmdOIQCY0PYrcyWgBWo+HxCz00Q3xOfm6HcMIITjZR5qCbEkaZYU8AZBoCGrLhYDBS6BBBxNPklQ9usMWuhio075zt9dh8dmoLDzOk2VaGXPD/b9kVVs25DqBNejPhsQnIEJnX4D/uO3hstdnLjd3LQtWoYuPDsEIWuU0642xXG6wb23/66E5GDC0c4Y=
+  gem: heroku-stage
+  on:
+    tags: true
+    repo: platanus/heroku-stage
