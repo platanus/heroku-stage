@@ -16,7 +16,8 @@ module Heroku
     private
 
     def heroku_pipeline_stage
-      Rails.env.development? ? '' : ENV.fetch('HEROKU_APP_NAME')[/staging|production/]
+      dev_or_test = Rails.env.development? || Rails.env.test?
+      dev_or_test ? '' : ENV.fetch('HEROKU_APP_NAME')[/staging|production/]
     rescue KeyError
       raise $!, enable_dyno_metadata_message($!), $!.backtrace
     end

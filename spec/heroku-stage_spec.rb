@@ -45,4 +45,15 @@ describe Heroku do
       expect(Heroku.stage).to be_empty
     end
   end
+
+  describe 'on test' do
+    before(:each) do
+      allow(Rails.env).to receive(:development?).and_return(false)
+      allow(Rails.env).to receive(:test?).and_return(true)
+    end
+
+    it "get the correct stage" do
+      expect(Heroku.stage).to be_empty
+    end
+  end
 end
