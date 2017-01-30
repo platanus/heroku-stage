@@ -45,6 +45,11 @@ current stage on the heroku pipeline.
 The application name convention is `my-app-<stage>`.
 
 You can manually add the environmental variable `HEROKU_APP_NAME` with the app name
+
+```shell
+heroku config:set HEROKU_APP_NAME=<your app>
+```
+
 or you can use the [dyno metadata labs](https://devcenter.heroku.com/articles/dyno-metadata)
 from heroku which will add the variable on your next deploy.
 
