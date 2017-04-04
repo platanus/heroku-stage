@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### unreleased
 
+* Add support for ruby < 2.3
+
 ### v0.2.0
 
 * Adds support to rails test environment

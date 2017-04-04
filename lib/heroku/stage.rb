@@ -23,16 +23,16 @@ module Heroku
     end
 
     def enable_dyno_metadata_message(exception)
-      <<~EOS
-        #{exception.message}
+      <<-USAGE
+#{exception.message}
 
-        Remember to enable the heroku dyno metadata to add the HEROKU_APP_NAME key to the environment.
-        To do that run the folowing command:
+Remember to enable the heroku dyno metadata to add the HEROKU_APP_NAME key to the environment.
+To do that run the folowing command:
 
-          heroku labs:enable runtime-dyno-metadata --remote production
+  heroku labs:enable runtime-dyno-metadata --remote production
 
-        On the next deploy the key will be populated with the app name
-      EOS
+On the next deploy the key will be populated with the app name
+      USAGE
     end
   end
 end
