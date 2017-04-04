@@ -13,6 +13,7 @@ describe Heroku do
   describe 'on production' do
     before(:each) do
       allow(Rails.env).to receive(:development?).and_return(false)
+      allow(Rails.env).to receive(:test?).and_return(false)
     end
 
     it "get the correct stage" do
@@ -21,16 +22,16 @@ describe Heroku do
     end
 
     it "fail with a message if dyno labs are not loaded" do
-      message = <<~EOF
-          key not found: "HEROKU_APP_NAME"
+      message = <<-USAGE
+key not found: "HEROKU_APP_NAME"
 
-          Remember to enable the heroku dyno metadata to add the HEROKU_APP_NAME key to the environment.
-          To do that run the folowing command:
+Remember to enable the heroku dyno metadata to add the HEROKU_APP_NAME key to the environment.
+To do that run the folowing command:
 
-            heroku labs:enable runtime-dyno-metadata --remote production
+  heroku labs:enable runtime-dyno-metadata --remote production
 
-          On the next deploy the key will be populated with the app name
-      EOF
+On the next deploy the key will be populated with the app name
+      USAGE
 
       expect { Heroku.stage }.to raise_error(KeyError).with_message(message)
     end
@@ -39,6 +40,7 @@ describe Heroku do
   describe 'on development' do
     before(:each) do
       allow(Rails.env).to receive(:development?).and_return(true)
+      allow(Rails.env).to receive(:test?).and_return(false)
     end
 
     it "get the correct stage" do
