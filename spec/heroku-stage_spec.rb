@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Heroku do
   before(:each) do
@@ -6,7 +6,7 @@ describe Heroku do
     subject.instance_variable_set(:@_stage, nil)
   end
 
-  it "has a version number" do
+  it 'has a version number' do
     expect(Heroku::Stage::VERSION).not_to be nil
   end
 
@@ -16,12 +16,18 @@ describe Heroku do
       allow(Rails.env).to receive(:test?).and_return(false)
     end
 
-    it "get the correct stage" do
-      allow(ENV).to receive(:fetch).with("HEROKU_APP_NAME").and_return("myapp-staging")
+    it 'get the correct stage' do
+      allow(ENV).to receive(:fetch).with('HEROKU_APP_NAME').and_return('myapp-staging')
       expect(Heroku.stage).to eq('staging')
     end
 
-    it "fail with a message if dyno labs are not loaded" do
+    describe '#review_app?' do
+      it 'returns false' do
+        expect(Heroku.review_app?).to be(false)
+      end
+    end
+
+    it 'fail with a message if dyno labs are not loaded' do
       message = <<-USAGE
 key not found: "HEROKU_APP_NAME"
 
@@ -43,7 +49,7 @@ On the next deploy the key will be populated with the app name
       allow(Rails.env).to receive(:test?).and_return(false)
     end
 
-    it "get the correct stage" do
+    it 'get the correct stage' do
       expect(Heroku.stage).to be_empty
     end
   end
@@ -54,8 +60,25 @@ On the next deploy the key will be populated with the app name
       allow(Rails.env).to receive(:test?).and_return(true)
     end
 
-    it "get the correct stage" do
+    it 'get the correct stage' do
       expect(Heroku.stage).to be_empty
+    end
+  end
+
+  describe 'on review app' do
+    before(:each) do
+      allow(ENV).to receive(:[]).with("HEROKU_PARENT_APP_NAME").and_return("myapp-staging")
+      allow(ENV).to receive(:fetch).with('HEROKU_APP_NAME').and_return('myapp-staging-pr-766')
+    end
+
+    it 'get the correct stage' do
+      expect(Heroku.stage).to eq('pr-766')
+    end
+
+    describe '#review_app?' do
+      it 'returns true' do
+        expect(Heroku.review_app?).to be(true)
+      end
     end
   end
 end
