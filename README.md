@@ -87,6 +87,15 @@ Rails.env.development? # true
 Heroku.stage # => ''
 ```
 
+### In review apps
+
+When in a review app you can get the current pull-request
+
+```ruby
+Heroku.review_app? # true
+Heroku.stage # => pr-43
+```
+
 ## Testing
 
 To run the specs you need to execute, **in the root path of the gem**, the following command:

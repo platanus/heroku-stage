@@ -13,9 +13,15 @@ module Heroku
       @_stage ||= ActiveSupport::StringInquirer.new(heroku_pipeline_stage)
     end
 
+    def review_app?
+      !ENV['HEROKU_PARENT_APP_NAME'].nil?
+    end
+
     private
 
     def heroku_pipeline_stage
+      return ENV.fetch('HEROKU_APP_NAME')[/pr-(\d*)/] if review_app?
+
       dev_or_test = Rails.env.development? || Rails.env.test?
       dev_or_test ? '' : ENV.fetch('HEROKU_APP_NAME')[/staging|production/]
     rescue KeyError
