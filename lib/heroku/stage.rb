@@ -20,12 +20,22 @@ module Heroku
     private
 
     def heroku_pipeline_stage
-      return ENV.fetch('HEROKU_APP_NAME')[/pr-(\d*)/] if review_app?
+      return branch || pull_request if review_app?
 
       dev_or_test = Rails.env.development? || Rails.env.test?
       dev_or_test ? '' : ENV.fetch('HEROKU_APP_NAME')[/staging|production/]
     rescue KeyError
       raise $!, enable_dyno_metadata_message($!), $!.backtrace
+    end
+
+    def branch
+      app_name = ENV.fetch('HEROKU_APP_NAME')
+
+      return "br-#{app_name.split('-br-')[1]}" if app_name.include? '-br-'
+    end
+
+    def pull_request
+      ENV.fetch('HEROKU_APP_NAME')[/pr-(\d*)/]
     end
 
     def enable_dyno_metadata_message(exception)

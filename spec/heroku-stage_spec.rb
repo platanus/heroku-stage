@@ -66,18 +66,34 @@ On the next deploy the key will be populated with the app name
   end
 
   describe 'on review app' do
-    before(:each) do
-      allow(ENV).to receive(:[]).with("HEROKU_PARENT_APP_NAME").and_return("myapp-staging")
-      allow(ENV).to receive(:fetch).with('HEROKU_APP_NAME').and_return('myapp-staging-pr-766')
-    end
-
-    it 'get the correct stage' do
-      expect(Heroku.stage).to eq('pr-766')
-    end
 
     describe '#review_app?' do
       it 'returns true' do
         expect(Heroku.review_app?).to be(true)
+      end
+    end
+
+    describe '#heroku_pipeline_stage' do
+      context 'when app is created from pull request' do
+        before(:each) do
+          allow(ENV).to receive(:[]).with("HEROKU_PARENT_APP_NAME").and_return("myapp-staging")
+          allow(ENV).to receive(:fetch).with('HEROKU_APP_NAME').and_return('myapp-staging-pr-766')
+        end
+
+        it 'get the correct stage' do
+          expect(Heroku.stage).to eq('pr-766')
+        end
+      end
+      
+      context 'when app is created from branch' do
+        before(:each) do
+          allow(ENV).to receive(:[]).with("HEROKU_PARENT_APP_NAME").and_return("myapp-staging")
+          allow(ENV).to receive(:fetch).with('HEROKU_APP_NAME').and_return('myapp-staging-br-new-feature')
+        end
+
+        it 'get the correct stage' do
+          expect(Heroku.stage).to eq('br-new-feature')
+        end
       end
     end
   end
